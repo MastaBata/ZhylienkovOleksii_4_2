@@ -22,15 +22,6 @@ public class Decoder {
         return decodedWord.toString();
     }
 
-    public static String decodeMessage1(String message) {
-        String[] words = message.split("\\s+");
-        StringBuilder decodedMessage = new StringBuilder();
-
-        for (String word : words) {
-            decodedMessage.append(decodeVowelReplacement(word)).append(" ");
-        }
-        return decodedMessage.toString().trim();
-    }
     public static String decodeConsonantReplacement(String word) {
         String consonants = "bcdfghjklmnpqrstvwxyz";
         StringBuilder decodedWord = new StringBuilder();
@@ -38,7 +29,8 @@ public class Decoder {
         for (char letter : word.toCharArray()) {
             char lowercase = Character.toLowerCase(letter);
             if (consonants.indexOf(lowercase) != -1) {
-                char replacement = consonants.charAt((consonants.indexOf(lowercase) + 1) % consonants.length());
+                int index = (consonants.indexOf(lowercase) - 1 + consonants.length()) % consonants.length();
+                char replacement = consonants.charAt(index);
                 if (Character.isUpperCase(letter)) {
                     decodedWord.append(Character.toUpperCase(replacement));
                 } else {
@@ -50,6 +42,17 @@ public class Decoder {
         }
         return decodedWord.toString();
     }
+
+    public static String decodeMessage1(String message) {
+        String[] words = message.split("\\s+");
+        StringBuilder decodedMessage = new StringBuilder();
+
+        for (String word : words) {
+            decodedMessage.append(decodeVowelReplacement(word)).append(" ");
+        }
+        return decodedMessage.toString().trim();
+    }
+
     public static String decodeMessage2(String message) {
         String[] words = message.split("\\s+");
         StringBuilder decodedMessage = new StringBuilder();
@@ -65,13 +68,13 @@ public class Decoder {
     }
 
     public static void main(String[] args) {
-        String encryptedMessage1 = "t2st3ng"; // Закодоване повідомлення голосних
-        String encryptedMessage2 = "testing"; // Закодоване повідомлення приголосних
+        String originalMessage1 = "t2st3ng";
+        String originalMessage2 = "vetviph";
 
-        String decryptedMessage1 = decodeMessage1(encryptedMessage1);
-        String decryptedMessage2 = decodeMessage2(encryptedMessage2);
+        String decodedMessage1 = decodeMessage1(originalMessage1);
+        String decodedMessage2 = decodeMessage2(originalMessage2);
 
-        System.out.println("Decrypted Message 1: " + decryptedMessage1);
-        System.out.println("Decrypted Message 2: " + decryptedMessage2);
+        System.out.println("Decoded Message 1: " + decodedMessage1);
+        System.out.println("Decoded Message 2: " + decodedMessage2);
     }
 }
